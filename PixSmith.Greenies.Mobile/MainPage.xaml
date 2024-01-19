@@ -1,0 +1,139 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             xmlns:toolkit="http://schemas.microsoft.com/dotnet/2022/maui/toolkit"
+             xmlns:viewModels="clr-namespace:PixSmith.Greenies.Mobile.ViewModels"
+             xmlns:objectModel="using:System.Collections.ObjectModel"
+             xmlns:contracts="clr-namespace:Plugin.BLE.Abstractions.Contracts;assembly=Plugin.BLE"
+             x:Class="PixSmith.Geenies.Mobile.MainPage">
+    <ScrollView>
+        <VerticalStackLayout
+            Spacing="25"
+            Padding="30,0"
+            VerticalOptions="Center">
+            <Label Text="Data:" VerticalOptions="Start"></Label>
+            <Label Text="{Binding GattCharacteristic}" VerticalOptions="Start"></Label>
+            <Label
+                Text="Waiting for scan..."
+                SemanticProperties.HeadingLevel="Level2"
+                SemanticProperties.Description="Scan result"
+                FontSize="18"
+                HorizontalOptions="Center" />
+
+            <Button
+                x:Name="ScanButton"
+                Text="Start Scan"
+                SemanticProperties.Hint="Start BLE Scan"
+                Command="{Binding OnScanClick}"
+                HorizontalOptions="Center" />
+            <HorizontalStackLayout Margin="10,10,10,10">
+                <ListView
+                    Grid.Column="0"
+                    Grid.Row="0"
+                x:Name="DeviceListView" 
+                HorizontalOptions="Center" 
+                ItemsSource="{Binding Devices}"
+                SelectionMode="Single"
+                SelectedItem="{Binding SelectedDevice}">
+                    <ListView.Behaviors>
+                        <toolkit:EventToCommandBehavior
+                            EventName="ItemSelected"
+                            Command="{Binding OnDeviceClick}" />
+                    </ListView.Behaviors>
+                    <ListView.ItemTemplate>
+                        <DataTemplate
+                            x:DataType="contracts:IDevice">
+                            <ViewCell>
+                                <Grid x:Name="Grid2" Padding="10">
+                                    <Grid.RowDefinitions>
+                                        <RowDefinition Height="Auto" />
+                                    </Grid.RowDefinitions>
+                                    <Grid.ColumnDefinitions>
+                                        <ColumnDefinition Width="Auto" />
+                                    </Grid.ColumnDefinitions>
+                                    <Label Grid.Row="0"
+                                       Grid.Column="0"
+                                       Text="{Binding Name}"
+                                       VerticalOptions="End" />
+                                </Grid>
+                            </ViewCell>
+                        </DataTemplate>
+                    </ListView.ItemTemplate>
+                </ListView>
+                <ListView
+                    x:Name="ServiceListView" 
+                    HorizontalOptions="Center"
+                    ItemsSource="{Binding DeviceServices}"
+                    SelectionMode="Single"
+                    SelectedItem="{Binding SelectedService}">
+                    <ListView.Behaviors>
+                        <toolkit:EventToCommandBehavior
+                            EventName="ItemSelected"
+                            Command="{Binding OnServiceClick}" />
+                    </ListView.Behaviors>
+                    <ListView.ItemTemplate>
+                        <DataTemplate
+                            x:DataType="contracts:IService">
+                            <ViewCell>
+                                <Grid Padding="10">
+                                    <Grid.RowDefinitions>
+                                        <RowDefinition Height="Auto" />
+                                    </Grid.RowDefinitions>
+                                    <Grid.ColumnDefinitions>
+                                        <ColumnDefinition Width="Auto" />
+                                        <ColumnDefinition Width="Auto" />
+                                        <ColumnDefinition Width="Auto" />
+                                    </Grid.ColumnDefinitions>
+                                    <Label Grid.Row="0"
+                                            Grid.Column="0"
+                                            Text="{Binding Name}"
+                                            VerticalOptions="End" />
+                                    <Label Grid.Row="0"
+                                           Grid.Column="1"
+                                           Text=": "
+                                           VerticalOptions="End" />
+                                    <Label Grid.Row="0"
+                                           Grid.Column="2"
+                                           Text="{Binding Id}"
+                                           VerticalOptions="End" />
+                                </Grid>
+                            </ViewCell>
+                        </DataTemplate>
+                    </ListView.ItemTemplate>
+                </ListView>
+                <ListView
+                    x:Name="CharacteristicListView" 
+                    HorizontalOptions="Center"
+                    ItemsSource="{Binding ServiceCharacteristics}"
+                    SelectionMode="Single"
+                    SelectedItem="{Binding SelectedCharacteristic}">
+                    <ListView.Behaviors>
+                        <toolkit:EventToCommandBehavior
+                            EventName="ItemSelected"
+                            Command="{Binding OnCharacteristicClick}" />
+                    </ListView.Behaviors>
+                    <ListView.ItemTemplate>
+                        <DataTemplate
+                            x:DataType="contracts:ICharacteristic">
+                            <ViewCell>
+                                <Grid Padding="10">
+                                    <Grid.RowDefinitions>
+                                        <RowDefinition Height="Auto" />
+                                    </Grid.RowDefinitions>
+                                    <Grid.ColumnDefinitions>
+                                        <ColumnDefinition Width="Auto" />
+                                    </Grid.ColumnDefinitions>
+                                    <Label Grid.Row="0"
+                                           Grid.Column="0"
+                                           Text="{Binding Uuid}"
+                                           VerticalOptions="End" />
+                                </Grid>
+                            </ViewCell>
+                        </DataTemplate>
+                    </ListView.ItemTemplate>
+                </ListView>
+            </HorizontalStackLayout>
+        </VerticalStackLayout>
+    </ScrollView>
+
+</ContentPage>

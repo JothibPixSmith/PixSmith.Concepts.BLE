@@ -1,0 +1,17 @@
+<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <TargetFramework>net7.0</TargetFramework>
+    <ImplicitUsings>enable</ImplicitUsings>
+    <Nullable>enable</Nullable>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <PackageReference Include="Plugin.BLE" Version="3.0.0-beta.6" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\PixSmith.Greenies.Mobile.Domain\PixSmith.Greenies.Mobile.Domain.csproj" />
+  </ItemGroup>
+
+</Project>
